@@ -8,6 +8,7 @@ namespace Premier.Models
 {
     public class Tournament
     {
-        
+        public int ToutnamentID { get; set;}
+
     }
 }

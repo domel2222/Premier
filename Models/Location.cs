@@ -8,6 +8,11 @@ namespace Premier.Models
 {
     public class Location
     {
-        
+        public int LocationID { get; set; }
+        public string StadiumName { get; set; }
+        public string Address1 { get; set; }
+        public string CityTown { get; set; }
+        public int Capacity { get; set; }
+        public string Country { get; set;  }
     }
 }
