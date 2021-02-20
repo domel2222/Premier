@@ -33,7 +33,7 @@ namespace Premier.Context
                 .HasData(new
                 {
                     TournamentId = 1,
-                    Name = "Dinosaurus Cup",
+                    Name = "Dinosaur Cup",
                     NickName = "Tyro",
                     StartEventDate = new DateTime(2022, 01, 05),
                     LocationId = 1,
