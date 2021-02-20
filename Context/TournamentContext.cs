@@ -12,7 +12,7 @@ namespace Premier.Context
     public class TournamentContext : DbContext
     {
         private readonly IConfiguration _config;
-        public TournamentContext(DbContextOptions option, IConfiguration config) : base (option)
+        public TournamentContext(DbContextOptions option, IConfiguration config) : base(option)
         {
             _config = config;
         }
@@ -63,6 +63,39 @@ namespace Premier.Context
                 new
                 {
                     MatchId = 2,
+                    TournamentId = 1,
+                    Team1Id = 3,
+                    Team2Id = 4,
+                    Result = "3:2"
+                });
+            builder.Entity<Team>()
+                .HasData(new
+                {
+                    TeamId = 1,
+                    TeamName = "Arsenal",
+                    City = "London",
+                    Country = "England"
+                },
+                new
+                {
+                    TeamId = 2,
+                    TeamName = "Chelsea",
+                    City = "London",
+                    Country = "England"
+                },
+                new
+                {
+                    TeamId = 3,
+                    TeamName = "Sporting",
+                    City = "Lisbona",
+                    Country = "Portugal"
+                },
+                new
+                {
+                    TeamId = 4,
+                    TeamName = "Real",
+                    City = "Madrid",
+                    Country = "Spain"
                 });
         }
     }
