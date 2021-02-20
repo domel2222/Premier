@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Premier.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,23 @@ namespace Premier.DAL
 {
     public interface ITournamentRepository
     {
-        
+        //general 
+
+        void Add<T>(T entity) where T : class;
+        void Delete<T>(T entity) where T : class;
+
+        Task<bool> SaveChangesAsync();
+
+
+        //Tournament
+
+        Task<Tournament[]> GetAllTournamentAsync(bool includeMatches = false);
+        Task<Tournament> GetTournamentAsync(string nickName, bool includeMatche = false);
+        Task<Tournament[]> GetAllTournamentByEventData(DateTime dateTime, bool includeMatches = false);
+
+        //Maches
+
+
+        //Teams
     }
 }
