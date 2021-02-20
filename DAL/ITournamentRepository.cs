@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Premier.DAL
 {
-    public class TournamentRepository : ITournamentRepository
+    public interface ITournamentRepository
     {
         
     }

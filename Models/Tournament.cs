@@ -10,7 +10,7 @@ namespace Premier.Models
     public class Tournament
     {
         [Key]
-        public int ToutnamentID { get; set; }
+        public int TournamentId { get; set; }
         public string Name { get; set; }
         public string NickName { get; set; }
         public Location Location { get; set; }

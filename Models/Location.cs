@@ -8,7 +8,7 @@ namespace Premier.Models
 {
     public class Location
     {
-        public int LocationID { get; set; }
+        public int LocationId { get; set; }
         public string StadiumName { get; set; }
         public string Address1 { get; set; }
         public string CityTown { get; set; }

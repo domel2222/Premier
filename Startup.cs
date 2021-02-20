@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Premier.Context;
+using Premier.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +26,13 @@ namespace Premier
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TournamentContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Tournament")));
+            //services.AddDbContext<TournamentContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Tournament")));
 
-            services.AddControllersWithViews();
+            services.AddDbContext<TournamentContext>();
+            services.AddScoped<ITournamentRepository, TournamentRepository>();
+            services.AddControllers();
+
+            //services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +53,7 @@ namespace Premier
 
             app.UseRouting();
 
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
