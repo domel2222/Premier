@@ -84,9 +84,20 @@ namespace Premier.DAL
             throw new NotImplementedException();
         }
 
-        public Task<Match[]> GetMatchesByNickNameAsunc(string nickName, bool includeMatches = false)
+        public async Task<Match[]> GetMatchesByNickNameAsync(string nickName, bool includeMatches = false)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Getting all Matches in Tournament");
+
+            IQueryable<Match> query = _context.Matches;
+
+            if (includeMatches)
+            {
+                query = query.Include(m => m.Team1).Include(m => m.Team2);
+            }
+
+            query = query.Where(n => n.Tournament.NickName == nickName);
+
+            return await query.ToArrayAsync();
         }
 
         public Task<Team> GetTeamAsync(int teamId)

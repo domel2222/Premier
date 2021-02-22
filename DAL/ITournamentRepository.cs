@@ -25,7 +25,7 @@ namespace Premier.DAL
 
         //Maches
         Task<Match> GetMatchByNickNameAsync(string nickName, int matchId, bool includeMatches = false);
-        Task<Match[]> GetMatchesByNickNameAsunc(string nickName, bool includeMatches = false);
+        Task<Match[]> GetMatchesByNickNameAsync(string nickName, bool includeMatches = false);
 
 
         //Teams
