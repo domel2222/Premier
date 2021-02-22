@@ -33,9 +33,13 @@ namespace Premier.DAL
             _context.Remove(entity);
         }
 
-        public Task<Match[]> GetAllTeamsAsync()
+        public async Task<Team[]> GetAllTeamsAsync()
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Getting all teams ");
+
+            var query = _context.Teams.OrderBy(t => t.TeamName);
+
+            return await query.ToArrayAsync();
         }
 
         public async Task<Tournament[]> GetAllTournamentAsync(bool includeMatches = false)
@@ -112,14 +116,25 @@ namespace Premier.DAL
             return await query.ToArrayAsync();
         }
 
-        public Task<Team> GetTeamAsync(int teamId)
+        public async Task<Team> GetTeamAsync(int teamId)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Get team by Id");
+
+            var query = _context.Teams.Where(t => t.TeamId == teamId);
+
+            return await query.FirstOrDefaultAsync();
         }
 
-        public Task<Team[]> GetTeamsByNickNameAsync(string nickName)
+        public async  Task<Team[]> GetTeamsByNickNameAsync(string nickName)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Getting all Teams for Touranemnts");
+
+            IQueryable<Team> query = (IQueryable<Team>)_context.Matches
+                .Where(m => m.Tournament.NickName == nickName)
+                .Select(m => new { Team1 = m.Team1.TeamName, Team2 = m.Team2.TeamName })
+                .Distinct();
+
+            return await query.ToArrayAsync();
         }
 
         public async Task<Tournament> GetTournamentAsync(string nickName, bool includeMatches = false)
@@ -152,5 +167,7 @@ namespace Premier.DAL
             return (await _context.SaveChangesAsync() > 0);
 
         }
+
+
     }
 }

@@ -32,6 +32,6 @@ namespace Premier.DAL
 
         Task<Team[]> GetTeamsByNickNameAsync(string nickName);
         Task<Team> GetTeamAsync(int teamId);
-        Task<Match[]> GetAllTeamsAsync();
+        Task<Team[]> GetAllTeamsAsync();
     }
 }
