@@ -50,7 +50,7 @@ namespace Premier.Context
                 {
                     LocationId = 1,
                     StadiumName = "Emirates Stadium",
-                    Addres1 = "75 Drayton Park",
+                    Address1 = "75 Drayton Park",
                     CityTown = "London",
                     Capacity = 60338,
                     Country = "England"
