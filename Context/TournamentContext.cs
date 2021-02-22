@@ -30,6 +30,11 @@ namespace Premier.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Tournament>()
+                .Property(r => r.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            builder.Entity<Tournament>()
                 .HasData(new
                 {
                     TournamentId = 1,

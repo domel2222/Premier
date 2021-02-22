@@ -38,14 +38,45 @@ namespace Premier.DAL
             throw new NotImplementedException();
         }
 
-        public Task<Tournament[]> GetAllTournamentAsync(bool includeMatches = false)
+        public async Task<Tournament[]> GetAllTournamentAsync(bool includeMatches = false)
         {
-            throw new NotImplementedException();
-        }
+            _logger.LogInformation($"Getting all Tournament");
 
-        public Task<Tournament[]> GetAllTournamentByEventData(DateTime dateTime, bool includeMatches = false)
+            IQueryable<Tournament> query = _context.Tournaments
+                .Include(l => l.Location);
+
+            if(includeMatches)
+            {
+                query = query
+                    .Include(m => m.Matches).ThenInclude(t => t.Team1)
+                    .Include(m => m.Matches).ThenInclude(t => t.Team2);
+            }
+
+            query = query.OrderByDescending(d => d.StartEventDate);
+
+            return await query.ToArrayAsync();
+        } 
+
+        public async Task<Tournament[]> GetAllTournamentByEventData(DateTime dateTime, bool includeMatches = false)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Getting all Tournament");
+
+            IQueryable<Tournament> query = _context.Tournaments
+                .Include(t => t.Location);
+
+            if (includeMatches)
+            {
+                query = query
+                    .Include(m => m.Matches)
+                    .ThenInclude(tm => tm.Team1)
+                    .Include(m=> m.Matches)
+                    .ThenInclude(tm => tm.Team2);
+            }
+
+            query = query.OrderByDescending(d => d.StartEventDate)
+                .Where(d => d.StartEventDate == dateTime);
+
+            return await query.ToArrayAsync();
         }
 
         public Task<Match> GetMatchByNickNameAsync(string nickName, int matchId, bool includeMatches = false)

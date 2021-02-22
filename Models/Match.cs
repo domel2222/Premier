@@ -11,6 +11,7 @@ namespace Premier.Models
         public int MatchId { get; set; }
         public Tournament Tournament { get; set; }
 
+        public List<Team> ListOfTeams { get; set; }
         public Team Team1 { get; set; }
         public Team Team2 { get; set; }
 
