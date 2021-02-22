@@ -99,9 +99,24 @@ namespace Premier.DAL
             throw new NotImplementedException();
         }
 
-        public Task<Tournament> GetTournamentAsync(string nickName, bool includeMatche = false)
+        public async Task<Tournament> GetTournamentAsync(string nickName, bool includeMatches = false)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Getting a Tournamnet for {nickName}");
+
+            IQueryable<Tournament> query = _context.Tournaments
+                .Include(l => l.Location);
+
+            if (includeMatches)
+            {
+                query = query
+                    .Include(m => m.Matches).ThenInclude(t => t.Team1)
+                    .Include(m => m.Matches).ThenInclude(t => t.Team2);
+            }
+
+            query = query.Where(n => n.NickName == nickName);
+
+            return await query.FirstOrDefaultAsync();
+
         }
 
         public async Task<bool>  SaveChangesAsync()
