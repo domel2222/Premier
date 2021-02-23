@@ -13,7 +13,9 @@ namespace Premier.Profiles
     {
         public TournamentProfile()
         {
-            this.CreateMap<Tournament, TournamentDTO>();
+            this.CreateMap<Tournament, TournamentDTO>()
+                .ForMember(c => c.StadiumN, o => o.MapFrom(s => s.Location.StadiumName))
+                .ForMember(c => c.Address, o => o.MapFrom(s=>s.Location.Address1));
         }
     }
 }

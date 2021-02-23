@@ -51,6 +51,7 @@ namespace Premier.Controllers
 
         }
         [HttpGet("{nickname}")]
+        //[HttpGet("{nickname:int}")]
         public async Task<ActionResult<TournamentDTO>> GetOneTournament(string nickname)
         {
             try
