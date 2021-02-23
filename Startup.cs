@@ -8,10 +8,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Premier.Context;
 using Premier.DAL;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Premier
 {
@@ -31,6 +33,7 @@ namespace Premier
 
             services.AddDbContext<TournamentContext>();
             services.AddScoped<ITournamentRepository, TournamentRepository>();
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );

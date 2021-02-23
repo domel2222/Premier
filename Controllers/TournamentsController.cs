@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Premier.DAL;
+using Premier.DTOS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +16,12 @@ namespace Premier.Controllers
     public class TournamentsController : ControllerBase
     {
         private readonly ITournamentRepository _tournamentRepository;
+        private readonly IMapper _mapper;
 
-        public TournamentsController(ITournamentRepository tournamentRepository)
+        public TournamentsController(ITournamentRepository tournamentRepository, IMapper mapper)
         {
             _tournamentRepository = tournamentRepository;
+            _mapper = mapper;
         }
 
 
@@ -28,12 +33,14 @@ namespace Premier.Controllers
             {
                 var yesnt = true;
                 var result = await _tournamentRepository.GetAllTournamentAsync();
+
+                TournamentDTO[] models = _mapper.Map<TournamentDTO[]>
                 return this.Ok(result);
 
             }
             catch (Exception)
             {
-                return BadRequest("Database Failure");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
                 
             }
             
