@@ -31,7 +31,9 @@ namespace Premier
 
             services.AddDbContext<TournamentContext>();
             services.AddScoped<ITournamentRepository, TournamentRepository>();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
             services.AddMvcCore();
             services.AddControllersWithViews();

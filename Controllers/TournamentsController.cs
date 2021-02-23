@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Premier.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,33 @@ namespace Premier.Controllers
     [Route("api/[controller]")]
     public class TournamentsController : ControllerBase
     {
+        private readonly ITournamentRepository _tournamentRepository;
+
+        public TournamentsController(ITournamentRepository tournamentRepository)
+        {
+            _tournamentRepository = tournamentRepository;
+        }
+
 
         [HttpGet]
         [Produces("application/json")]
-        public IActionResult  GetTournaments()
+        public async Task<IActionResult>  GetTournaments()
         {
-            return this.Ok (new { NickNae = "DIno", Name = "London Master55" });
+            try
+            {
+                var yesnt = true;
+                var result = await _tournamentRepository.GetAllTournamentAsync();
+                return this.Ok(result);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest("Database Failure");
+                
+            }
+            
+
+            
         }
     }
 }
