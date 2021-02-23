@@ -27,15 +27,18 @@ namespace Premier.Controllers
 
         [HttpGet]
         [Produces("application/json")]
-        public async Task<IActionResult>  GetTournaments()
+        //public async Task<IActionResult>  GetTournaments()
+        public async Task<ActionResult<TournamentDTO[]>>  GetTournaments()
         {
             try
             {
                 var yesnt = true;
                 var result = await _tournamentRepository.GetAllTournamentAsync();
 
-                TournamentDTO[] models = _mapper.Map<TournamentDTO[]>
-                return this.Ok(result);
+                //TournamentDTO[] models = _mapper.Map<TournamentDTO[]>(result);
+
+                //return this.Ok(result);
+                return _mapper.Map<TournamentDTO[]>(result);
 
             }
             catch (Exception)
