@@ -27,30 +27,36 @@ namespace Premier.Controllers
 
         [HttpGet]
         [Produces("application/json")]
-        //public async Task<IActionResult>  GetTournaments()
-        public async Task<ActionResult<TournamentDTO[]>> GetTournaments()
+        //public async Task<IActionResult> Get()
+        //{
+        //    var result = await _tournamentRepository.GetAllTournamentAsync();
+
+        //    return Ok(result);
+    //public async Task<IActionResult>  GetTournaments()
+    public async Task<ActionResult<TournamentDTO[]>> GetTournaments()
+    {
+        try
         {
-            try
-            {
-                var yesnt = true;
-                var result = await _tournamentRepository.GetAllTournamentAsync();
+            var yesnt = true;
+            var result = await _tournamentRepository.GetAllTournamentAsync(yesnt);
 
-                //TournamentDTO[] models = _mapper.Map<TournamentDTO[]>(result);
+            //TournamentDTO[] models = _mapper.Map<TournamentDTO[]>(result);
 
-                //return this.Ok(result);
-                return _mapper.Map<TournamentDTO[]>(result);
-
-            }
-            catch (Exception)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
-
-            }
-
-
+            //return this.Ok(result);
+            return _mapper.Map<TournamentDTO[]>(result);
 
         }
-        [HttpGet("{nickname}")]
+        catch (Exception)
+        {
+            return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+
+        }
+
+
+
+    }
+
+    [HttpGet("{nickname}")]
         //[HttpGet("{nickname:int}")]
         public async Task<ActionResult<TournamentDTO>> GetOneTournament(string nickname)
         {

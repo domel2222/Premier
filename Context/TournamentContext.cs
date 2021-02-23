@@ -24,7 +24,10 @@ namespace Premier.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_config.GetConnectionString("Tournament"));
+            optionsBuilder.UseSqlServer(_config.GetConnectionString("Tournament"), builder =>
+            {
+                builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            });
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

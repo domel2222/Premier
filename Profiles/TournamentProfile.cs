@@ -16,6 +16,11 @@ namespace Premier.Profiles
             this.CreateMap<Tournament, TournamentDTO>()
                 .ForMember(c => c.StadiumN, o => o.MapFrom(s => s.Location.StadiumName))
                 .ForMember(c => c.Address, o => o.MapFrom(s=>s.Location.Address1));
+
+            this.CreateMap<Match, MatchDTO>()
+                .ForMember(c => c.teamTeamName, o => o.MapFrom(s => s.Team1.TeamName))
+                .ForMember(c => c.teamTeamName2, o => o.MapFrom(s => s.Team2.TeamName));
+                //.ForMember(c => c.Team2, o => o.MapFrom(s => s.Team2.TeamName));
         }
     }
 }

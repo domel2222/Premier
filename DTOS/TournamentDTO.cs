@@ -17,5 +17,7 @@ namespace Premier.DTOS
         public string LocationCityTown { get; set; }
         public int LocationCapacity { get; set; }
         public string LocationCountry { get; set; }
+
+        public ICollection<MatchDTO> Matches { get; set; }
     }
 }
