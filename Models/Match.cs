@@ -14,8 +14,9 @@ namespace Premier.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MatchId { get; set; }
         public Tournament Tournament { get; set; }
-
+        [Required]
         public Team Team1 { get; set; }
+        [Required]
         public Team Team2 { get; set; }
 
         public string Result { get; set; }

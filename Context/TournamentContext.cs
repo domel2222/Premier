@@ -59,18 +59,18 @@ namespace Premier.Context
             builder.Entity<Match>()
                 .HasData(new
                 {
-                    MatChId = 1,
+                    MatchId = 1,
                     TournamentId = 1,
-                    Team1Id = 1,
-                    Team2Id = 2,
+                    Team1TeamId = 1,
+                    Team2TeamId = 2,
                     Result = "3:1"
                 },
                 new
                 {
                     MatchId = 2,
                     TournamentId = 1,
-                    Team1Id = 3,
-                    Team2Id = 4,
+                    Team1TeamId = 3,
+                    Team2TeamId = 4,
                     Result = "3:2"
                 });
             builder.Entity<Team>()
