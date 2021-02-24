@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Premier.DAL;
 using Premier.DTOS;
+using Premier.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,14 +69,14 @@ namespace Premier.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "DataBase Failure");
             }
         }
-        [HttpGet("{search}")]
+        [HttpGet("search")]
         public async Task<ActionResult<TournamentDTO[]>> SearchByDate(DateTime date, bool includesMatches = false)
-            {
+        {
             try
             {
                 var result = await _tournamentRepository.GetAllTournamentByEventData(date, includesMatches);
 
-                if (result == null) return NotFound();
+                if (!result.Any()) return NotFound();
 
                 return _mapper.Map<TournamentDTO[]>(result);
             }
@@ -84,7 +85,19 @@ namespace Premier.Controllers
 
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
-            }
+        }
+        public async Task<ActionResult<TournamentDTO>> Post(TournamentDTO tour)
+        {
+            try
+            {
+                var camp = _mapper.Map<Tournament>(tour);
 
+                _tournamentRepository.
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+        }
     }
 }

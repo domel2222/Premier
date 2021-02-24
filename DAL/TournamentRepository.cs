@@ -25,12 +25,20 @@ namespace Premier.DAL
         {
             _logger.LogInformation($"Adding an object {entity.GetType()} to the contrxt");
             _context.Add(entity);
+            
         }
 
         public void Delete<T>(T entity) where T : class
         {
             _logger.LogInformation($"Removing and object {entity.GetType()} from the context");
             _context.Remove(entity);
+        }
+
+
+        public void Update<T>(T entity) where T : class
+        {
+            _logger.LogInformation($"Removing and object {entity.GetType()} from the context");
+            _context.Update(entity);
         }
 
         public async Task<Team[]> GetAllTeamsAsync()
