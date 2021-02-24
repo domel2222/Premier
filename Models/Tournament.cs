@@ -11,10 +11,13 @@ namespace Premier.Models
     {
         [Key]
         public int TournamentId { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string NickName { get; set; }
         public Location Location { get; set; }
         public DateTime StartEventDate { get; set; } = DateTime.MinValue;
+        
         public int NumberOfTeam { get; set; } = 2;
         public ICollection<Match> Matches {get; set;}
     }

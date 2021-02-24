@@ -86,10 +86,19 @@ namespace Premier.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
+        [HttpPut]
         public async Task<ActionResult<TournamentDTO>> RegisterNewTournament(TournamentDTO tour)
         {
             try
             {
+                //if(ModelState.IsValid)
+                var existingCup = await _tournamentRepository.GetTournamentAsync(tour.NickName);
+
+                if(existingCup != null)
+                {
+                    return BadRequest("NickName is Use");
+                }
+
                 var loction = _linkGenerator.GetPathByAction("GetOneTournament", "tournaments",
                     new { nickname = tour.NickName });
 
@@ -112,7 +121,10 @@ namespace Premier.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
+
         }
+
+
         //[HttpPatch("{id}")]
         //public async Task<ActionResult<TournamentDTO>> PatchTournament(int id, JsonPatchDocument<TournamentDTO> patchDoc)
         //{
