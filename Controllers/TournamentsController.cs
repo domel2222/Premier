@@ -86,7 +86,7 @@ namespace Premier.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
-        [HttpPut]
+        [HttpPost]
         public async Task<ActionResult<TournamentDTO>> RegisterNewTournament(TournamentDTO tour)
         {
             try
@@ -94,7 +94,7 @@ namespace Premier.Controllers
                 //if(ModelState.IsValid)
                 var existingCup = await _tournamentRepository.GetTournamentAsync(tour.NickName);
 
-                if(existingCup != null)
+                if (existingCup != null)
                 {
                     return BadRequest("NickName is Use");
                 }
@@ -115,7 +115,7 @@ namespace Premier.Controllers
                     return Created($"/api/tournaments/{tournament.NickName}", _mapper.Map<TournamentDTO>(tournament));
                 }
 
-                return default;
+                return BadRequest();
             }
             catch (Exception)
             {
@@ -124,7 +124,29 @@ namespace Premier.Controllers
 
         }
 
+        [HttpPut ("{nickname}")]
+        public async Task <ActionResult<TournamentDTO>> UpdateTournament(string nickname, TournamentDTO tour)
+        {
+            try
+            {
+                var oldTournament = await _tournamentRepository.GetTournamentAsync(nickname);
+                if (oldTournament == null) return NotFound($"Could not found camp with nickname of {nickname}");
 
+
+                _mapper.Map(tour, oldTournament);
+
+                if(await _tournamentRepository.SaveChangesAsync())
+                {
+                    return _mapper.Map<TournamentDTO>(oldTournament);
+                }
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+            return BadRequest();
+        }
         //[HttpPatch("{id}")]
         //public async Task<ActionResult<TournamentDTO>> PatchTournament(int id, JsonPatchDocument<TournamentDTO> patchDoc)
         //{
