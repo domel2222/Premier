@@ -37,7 +37,7 @@ namespace Premier.DAL
 
         public void Update<T>(T entity) where T : class
         {
-            _logger.LogInformation($"Removing and object {entity.GetType()} from the context");
+            _logger.LogInformation($"Updationg and object {entity.GetType()} from the context");
             _context.Update(entity);
         }
 

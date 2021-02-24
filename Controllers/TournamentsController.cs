@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Premier.DAL;
 using Premier.DTOS;
 using Premier.Models;
@@ -18,11 +19,13 @@ namespace Premier.Controllers
     {
         private readonly ITournamentRepository _tournamentRepository;
         private readonly IMapper _mapper;
+        private readonly LinkGenerator _linkGenerator;
 
-        public TournamentsController(ITournamentRepository tournamentRepository, IMapper mapper)
+        public TournamentsController(ITournamentRepository tournamentRepository, IMapper mapper, LinkGenerator linkGenerator)
         {
             _tournamentRepository = tournamentRepository;
             _mapper = mapper;
+            _linkGenerator = linkGenerator;
         }
 
 
@@ -46,9 +49,6 @@ namespace Premier.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
 
             }
-
-
-
         }
 
         [HttpGet("{nickname}")]
@@ -86,18 +86,44 @@ namespace Premier.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
-        public async Task<ActionResult<TournamentDTO>> Post(TournamentDTO tour)
+        public async Task<ActionResult<TournamentDTO>> RegisterNewTournament(TournamentDTO tour)
         {
             try
             {
-                var camp = _mapper.Map<Tournament>(tour);
+                var loction = _linkGenerator.GetPathByAction("GetOneTournament", "tournaments",
+                    new { nickname = tour.NickName });
 
-                _tournamentRepository.
+                if (string.IsNullOrWhiteSpace(loction))
+                {
+                    return BadRequest("Could not use current nickname");
+                }
+
+                var tournament = _mapper.Map<Tournament>(tour);
+
+                _tournamentRepository.Add(tournament);
+                if (await _tournamentRepository.SaveChangesAsync())
+                {
+                    return Created($"/api/tournaments/{tournament.NickName}", _mapper.Map<TournamentDTO>(tournament));
+                }
+
+                return default;
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
+        //[HttpPatch("{id}")]
+        //public async Task<ActionResult<TournamentDTO>> PatchTournament(int id, JsonPatchDocument<TournamentDTO> patchDoc)
+        //{
+        //    var tour = _tournamentRepository.GetTournamentById(id);
+        //    if(tour == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var tourPatch = _mapper.
+
+        //}
     }
 }
