@@ -27,36 +27,30 @@ namespace Premier.Controllers
 
         [HttpGet]
         [Produces("application/json")]
-        //public async Task<IActionResult> Get()
-        //{
-        //    var result = await _tournamentRepository.GetAllTournamentAsync();
-
-        //    return Ok(result);
-    //public async Task<IActionResult>  GetTournaments()
-    public async Task<ActionResult<TournamentDTO[]>> GetTournaments()
-    {
-        try
+        public async Task<ActionResult<TournamentDTO[]>> GetTournaments(bool includesMatches = false)
         {
-            var yesnt = true;
-            var result = await _tournamentRepository.GetAllTournamentAsync(yesnt);
+            try
+            {
+                //var yesnt = true;
+                var result = await _tournamentRepository.GetAllTournamentAsync(includesMatches);
 
-            //TournamentDTO[] models = _mapper.Map<TournamentDTO[]>(result);
+                //TournamentDTO[] models = _mapper.Map<TournamentDTO[]>(result);
 
-            //return this.Ok(result);
-            return _mapper.Map<TournamentDTO[]>(result);
+                //return this.Ok(result);
+                return _mapper.Map<TournamentDTO[]>(result);
 
-        }
-        catch (Exception)
-        {
-            return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+            catch (Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+
+            }
+
+
 
         }
 
-
-
-    }
-
-    [HttpGet("{nickname}")]
+        [HttpGet("{nickname}")]
         //[HttpGet("{nickname:int}")]
         public async Task<ActionResult<TournamentDTO>> GetOneTournament(string nickname)
         {
@@ -74,5 +68,23 @@ namespace Premier.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "DataBase Failure");
             }
         }
+        [HttpGet("{search}")]
+        public async Task<ActionResult<TournamentDTO[]>> SearchByDate(DateTime date, bool includesMatches = false)
+            {
+            try
+            {
+                var result = await _tournamentRepository.GetAllTournamentByEventData(date, includesMatches);
+
+                if (result == null) return NotFound();
+
+                return _mapper.Map<TournamentDTO[]>(result);
+            }
+            catch (Exception)
+            {
+
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+            }
+
     }
 }

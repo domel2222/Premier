@@ -10,9 +10,6 @@ namespace Premier.DTOS
     public class MatchDTO
     {
 
-        //public Team Team1 { get; set; }
-
-        //public Team Team2 { get; set; }
         public string teamTeamName { get; set; }
         public string teamTeamName2 { get; set; }
 
