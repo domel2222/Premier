@@ -20,9 +20,9 @@ namespace Premier.Profiles
             this.CreateMap<Match, MatchDTO>()
                 .ForMember(c => c.teamTeamName, o => o.MapFrom(s => s.Team1.TeamName))
                 .ForMember(c => c.teamTeamName2, o => o.MapFrom(s => s.Team2.TeamName));
-                //.ForMember(c => c.Team2, o => o.MapFrom(s => s.Team2.TeamName));
+            //.ForMember(c => c.Team2, o => o.MapFrom(s => s.Team2.TeamName));
 
-
+            this.CreateMap<Location, LocationDTO>().ReverseMap();
         }
     }
 }

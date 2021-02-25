@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Premier.DTOS;
 
 namespace Premier.Controllers
 {
@@ -29,13 +30,15 @@ namespace Premier.Controllers
         [HttpGet]
         [Produces("application/json")]
 
-        public async Task<ActionResult<Location[]>> GetLocations()
+        public async Task<ActionResult<LocationDTO[]>> GetLocations()
         {
             try
             {
                 var result = await _locationrepo.GetAllLocation();
 
-                return this.Ok(result);
+                //return this.Ok(result);
+
+                return _mapper.Map<LocationDTO[]>(result);
             }
             catch (Exception)
             {
