@@ -171,6 +171,7 @@ namespace Premier.Controllers
 
             return BadRequest();
         }
+
         //[HttpPatch("{id}")]
         //public async Task<ActionResult<TournamentDTO>> PatchTournament(int id, JsonPatchDocument<TournamentDTO> patchDoc)
         //{
