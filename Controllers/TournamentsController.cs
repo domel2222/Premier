@@ -147,6 +147,30 @@ namespace Premier.Controllers
             }
             return BadRequest();
         }
+
+        [HttpDelete("{nickname}")]
+        public async Task <IActionResult> DeleteTournament(string nickname)
+        {
+            try
+            {
+                var deleteTournament = await _tournamentRepository.GetTournamentAsync(nickname);
+                if (deleteTournament == null) return NotFound();
+
+                _tournamentRepository.Delete(deleteTournament);
+
+                if (await _tournamentRepository.SaveChangesAsync())
+                {
+                    return Ok();
+                }
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+
+            return BadRequest();
+        }
         //[HttpPatch("{id}")]
         //public async Task<ActionResult<TournamentDTO>> PatchTournament(int id, JsonPatchDocument<TournamentDTO> patchDoc)
         //{
