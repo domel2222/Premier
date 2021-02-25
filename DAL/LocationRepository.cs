@@ -13,9 +13,9 @@ namespace Premier.DAL
     public class LocationRepository : ILocationRepository
     {
         private readonly TournamentContext _context;
-        private readonly ILogger _logger;
+        private readonly ILogger<LocationRepository> _logger;
 
-        public LocationRepository(TournamentContext context, ILogger logger)
+        public LocationRepository(TournamentContext context, ILogger<LocationRepository> logger)
         {
             this._context = context;
             this._logger = logger;

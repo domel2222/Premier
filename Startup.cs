@@ -33,6 +33,7 @@ namespace Premier
 
             services.AddDbContext<TournamentContext>();
             services.AddScoped<ITournamentRepository, TournamentRepository>();
+            services.AddScoped<ILocationRepository, LocationRepository>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
