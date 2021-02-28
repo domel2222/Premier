@@ -91,35 +91,28 @@ namespace Premier.DAL
             return await query.ToArrayAsync();
         }
 
-        public async Task<Match> GetMatchByNickNameAsync(string nickName, int matchId, bool includeMatches = false)
+        public async Task<Match> GetMatchByNickNameAsync(string nickName, int matchId)
         {
             _logger.LogInformation($"Getting all matches in Tournament");
 
             IQueryable<Match> query = _context.Matches;
 
-            if (includeMatches)
-            {
-                query = query.Include(t => t.Team1).Include(t => t.Team2);
-            }
 
-            query = query.Where(m => m.MatchId == matchId && m.Tournament.NickName == nickName);
+            query = query.Include(t => t.Team1).Include(t => t.Team2)
+                .Where(m => m.MatchId == matchId && m.Tournament.NickName == nickName);
 
 
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<Match[]> GetMatchesByNickNameAsync(string nickName, bool includeMatches = false)
+        public async Task<Match[]> GetMatchesByNickNameAsync(string nickName)
         {
             _logger.LogInformation($"Getting all Matches in Tournament");
 
             IQueryable<Match> query = _context.Matches;
 
-            if (includeMatches)
-            {
-                query = query.Include(m => m.Team1).Include(m => m.Team2);
-            }
-
-            query = query.Where(n => n.Tournament.NickName == nickName);
+            query = query.Include(m => m.Team1).Include(m => m.Team2)
+                .Where(n => n.Tournament.NickName == nickName);
 
             return await query.ToArrayAsync();
         }

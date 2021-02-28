@@ -21,7 +21,7 @@ namespace Premier.Controllers
     {
         private readonly ILocationRepository _locationrepo;
         private readonly IMapper _mapper;
-        //private readonly ILogger _logger;
+        //private readonly ILogger<LocationsController> _logger;
 
         public LocationsController(ILocationRepository locationrepo, IMapper mapper)
         {
@@ -94,11 +94,6 @@ namespace Premier.Controllers
 
                 return NoContent();
             }
-
-
-
         }
-
-
     }
 }
