@@ -19,8 +19,20 @@ namespace Premier.Profiles
 
             this.CreateMap<Match, MatchDTO>()
                 .ForMember(c => c.teamTeamName, o => o.MapFrom(s => s.Team1.TeamName))
-                .ForMember(c => c.teamTeamName2, o => o.MapFrom(s => s.Team2.TeamName)).ReverseMap();
+                .ForMember(c => c.teamTeamName2, o => o.MapFrom(s => s.Team2.TeamName)).ReverseMap()
+                .ForMember(t => t.Tournament, o => o.Ignore())
+                .ForMember(t => t.Team1, o => o.Ignore())
+                .ForMember(t => t.Team2, o => o.Ignore());
+
+            this.CreateMap<Match, MatchPostDTO>().ReverseMap();
+                //.ForMember(c => c.teamTeamName, o => o.MapFrom(s => s.Team1.TeamId))
+                //.ForMember(c => c.teamTeamName2, o => o.MapFrom(s => s.Team2.TeamId)).ReverseMap();
+                //.ForMember(c => c.team1id, o => o.MapFrom(s => s.Team1.TeamId))
+                //.ForMember(c => c.team2id, o => o.MapFrom(s => s.Team2.TeamId)).ReverseMap();
+
+
             //.ForMember(c => c.Team2, o => o.MapFrom(s => s.Team2.TeamName));
+
 
             this.CreateMap<Location, LocationDTO>().ReverseMap();
         }

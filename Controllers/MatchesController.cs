@@ -32,8 +32,8 @@ namespace Premier.Controllers
         {
             try
             {
-                var yesnt = true;
-                var matches = await _tournamentRepository.GetMatchesByNickNameAsync(nickname, yesnt);
+                
+                var matches = await _tournamentRepository.GetMatchesByNickNameAsync(nickname);
 
                 //return Ok(matches);
                 return _mapper.Map<MatchDTO[]>(matches);
@@ -44,16 +44,80 @@ namespace Premier.Controllers
             }
         }
         [HttpGet("{matchId:int}")]
-        public async Task <ActionResult<MatchDTO>> GetMatchInTournament(string nickname, int matchId)
+        public async Task<ActionResult<MatchDTO>> GetMatchInTournament(string nickname, int matchId)
         {
             try
             {
+                var match = await _tournamentRepository.GetMatchByNickNameAsync(nickname, matchId);
+
+                return _mapper.Map<MatchDTO>(match);
 
             }
             catch (Exception)
             {
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed to get matches");
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult<MatchDTO>> AddNewMatch(string nickname, MatchDTO matchModel)
+        //public async Task<ActionResult<MatchDTO>> AddNewMatch(string nickname, Match matchModel)
+        {
+            try
+            {
+                var tournament = await _tournamentRepository.GetTournamentAsync(nickname);
+                if (tournament == null) return BadRequest("Tournament does not exist");
+                // match from matchModel extract team name and get from database team by name , moreover assign Id to match id team??
+                var match = _mapper.Map<Match>(matchModel);
+
+                match.Tournament = tournament;
+
+                _tournamentRepository.Add(match);
+
+                if (await _tournamentRepository.SaveChangesAsync())
+                {
+                    var url = _linkGenerator.GetPathByAction(HttpContext, "GetMatchInTournament",
+                        values: new { nickname, matchId = match.MatchId });
+
+                    return Created(url, _mapper.Map<MatchDTO>(match));
+                }
+                else
+                {
+                    return BadRequest("Failed to save new match");
+                }
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to add dadabase");
+            }
+        }
+
+        [HttpPut("{matchId:int}")]
+        public async  Task <ActionResult<MatchDTO>> UpdateMatch(string nickname, int matchId, MatchDTO matchModel)
+        {
+            try
+            {
+                var match = await _tournamentRepository.GetMatchByNickNameAsync(nickname, matchId);
+                if (match == null) return NotFound("Couldn't find the talk");
+
+                _mapper.Map(matchModel, match);
+
+                if(await _tournamentRepository.SaveChangesAsync())
+                {
+                    return _mapper.Map<MatchDTO>(match);
+                }
+                else
+                {
+                    return BadRequest("Failed update match");
+                }
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to get match");
             }
         }
     }
