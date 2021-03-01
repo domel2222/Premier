@@ -8,6 +8,8 @@ namespace Premier.DTOS
 {
     public class TeamDTO
     {
-        
+        public string TeamName { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
     }
 }

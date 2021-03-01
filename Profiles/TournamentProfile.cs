@@ -35,6 +35,8 @@ namespace Premier.Profiles
 
 
             this.CreateMap<Location, LocationDTO>().ReverseMap();
+
+            this.CreateMap<Team, TeamDTO>().ReverseMap();
         }
     }
 }
