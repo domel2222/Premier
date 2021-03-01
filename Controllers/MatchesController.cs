@@ -49,7 +49,7 @@ namespace Premier.Controllers
             try
             {
                 var match = await _tournamentRepository.GetMatchByNickNameAsync(nickname, matchId);
-
+                if (match == null) return NotFound("Match dose not exist");
                 return _mapper.Map<MatchDTO>(match);
 
             }
