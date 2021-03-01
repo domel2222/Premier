@@ -17,6 +17,16 @@ namespace Premier.DAL
 
         Task<bool> SaveChangesAsync();
 
+        //public interface IBaseRepository<T> where T : class
+
+        //{
+        //    Task<T[]> GetAll();
+        //    Task<T> GetById(Guid id);
+        //    void Add(T t);
+        //    Task<T> Update(T t);
+        //    void Remove(T entity);
+        //    Task<bool> Commit();
+        //}
 
         //Tournament
 

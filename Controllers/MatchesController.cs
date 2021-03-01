@@ -104,13 +104,25 @@ namespace Premier.Controllers
 
                 _mapper.Map(matchModel, match);
 
+                if(matchModel.teamTeamName != null && matchModel.teamTeamName2 !=null)
+                {
+                    var teamid1 = 1;
+                    var teamId2 = 2;
+                    var team1 = await _tournamentRepository.GetTeamAsync(teamid1);
+                    var team2 = await _tournamentRepository.GetTeamAsync(teamId2);
+                    if(team1 != null)
+                    {
+                        match.Team1 = team1;
+                    }
+                }
+
                 if(await _tournamentRepository.SaveChangesAsync())
                 {
                     return _mapper.Map<MatchDTO>(match);
                 }
                 else
                 {
-                    return BadRequest("Failed update match");
+                    return BadRequest("Failed update match in database");
                 }
 
             }
@@ -118,6 +130,30 @@ namespace Premier.Controllers
             {
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed to get match");
+            }
+        }
+        [HttpDelete("{matchId:int}")]
+        public async Task<IActionResult>  DeleteMatch(string nickname, int matchId)
+        {
+            try
+            {
+                var match = await _tournamentRepository.GetMatchByNickNameAsync(nickname, matchId);
+                if (match == null) return NotFound("Failed to find the match");
+                _tournamentRepository.Delete(match);
+
+                if (await _tournamentRepository.SaveChangesAsync())
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Fail to delete");
+                }
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to Delete");
             }
         }
     }
