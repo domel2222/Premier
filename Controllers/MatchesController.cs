@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 namespace Premier.Controllers
 {
     [ApiController]
+    [ApiVersion("1.1")]
+    [ApiVersion("1.0")]
     [Route("api/tournaments/{nickname}/matches")]
     public class MatchesController : ControllerBase
     {

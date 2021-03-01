@@ -16,6 +16,8 @@ using Microsoft.Extensions.Logging;
 namespace Premier.Controllers
 {
     [ApiController]
+    [ApiVersion("1.1")]
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
     public class LocationsController : ControllerBase
     {
@@ -33,7 +35,7 @@ namespace Premier.Controllers
 
         [HttpGet]
         [Produces("application/json")]
-
+        [MapToApiVersion("1.1")]
         public async Task<ActionResult<LocationDTO[]>> GetLocations()
         {
             try

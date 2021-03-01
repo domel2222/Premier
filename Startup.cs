@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Premier
 {
@@ -39,6 +40,14 @@ namespace Premier
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
 
+            services.AddApiVersioning(opt =>
+            {
+                opt.DefaultApiVersion = new ApiVersion(1, 0);
+                opt.AssumeDefaultVersionWhenUnspecified = true;
+                opt.ReportApiVersions = true;
+
+            });
+            //services.AddMvc(opt => opt.EnableEndpointRouting = false); //version api 404
             services.AddMvcCore();
             services.AddControllersWithViews();
 
