@@ -22,7 +22,8 @@ namespace Premier.DAL
         }
         public async Task<Location[]> GetAllLocation()
         {
-            _logger.LogInformation($"Getting all location");
+            _logger.LogInformation("Getting all location");
+            
 
             var query = _context.Locations.OrderBy(l => l.LocationId);
 
@@ -42,7 +43,7 @@ namespace Premier.DAL
 
         public async Task<bool> SaveChangesAsync()
         {
-            _logger.LogInformation($"Attempting to save this change");
+            _logger.LogInformation("Attempting to save this change");
 
             return (await _context.SaveChangesAsync() > 0);
         }

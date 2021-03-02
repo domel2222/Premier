@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Premier.DTOS;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Logging;
+using Premier.Services;
 
 namespace Premier.Controllers
 {
@@ -23,15 +24,37 @@ namespace Premier.Controllers
     {
         private readonly ILocationRepository _locationrepo;
         private readonly IMapper _mapper;
+        private readonly ILocationService _locationService;
+
         //private readonly ILogger<LocationsController> _logger;
 
-        public LocationsController(ILocationRepository locationrepo, IMapper mapper)
+        public LocationsController(ILocationRepository locationrepo, IMapper mapper, ILocationService locationService)
         {
             this._locationrepo = locationrepo;
             this._mapper = mapper;
+            this._locationService = locationService;
             //this._logger = logger;
         }
 
+
+        //[HttpGet]
+        //[Produces("application/json")]
+        //[MapToApiVersion("1.1")]
+        //public async Task<ActionResult<LocationDTO[]>> GetLocations()
+        //{
+        //    try
+        //    {
+        //        var result = await _locationrepo.GetAllLocation();
+
+        //        //return this.Ok(result);
+
+        //        return _mapper.Map<LocationDTO[]>(result);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return this.StatusCode(StatusCodes.Status500InternalServerError, "Database fail");
+        //    }
+        //}
 
         [HttpGet]
         [Produces("application/json")]
@@ -40,11 +63,11 @@ namespace Premier.Controllers
         {
             try
             {
-                var result = await _locationrepo.GetAllLocation();
+                var result = await _locationService.AllLocations();
 
                 //return this.Ok(result);
 
-                return _mapper.Map<LocationDTO[]>(result);
+                return result;
             }
             catch (Exception)
             {

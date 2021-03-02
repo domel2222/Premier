@@ -8,13 +8,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Premier.Context;
 using Premier.DAL;
-using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Premier.Services;
 
 namespace Premier
 {
@@ -35,6 +32,7 @@ namespace Premier
             services.AddDbContext<TournamentContext>();
             services.AddScoped<ITournamentRepository, TournamentRepository>();
             services.AddScoped<ILocationRepository, LocationRepository>();
+            services.AddScoped<ILocationService, LocationServices>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -45,6 +43,9 @@ namespace Premier
                 opt.DefaultApiVersion = new ApiVersion(1, 0);
                 opt.AssumeDefaultVersionWhenUnspecified = true;
                 opt.ReportApiVersions = true;
+                opt.ApiVersionReader = ApiVersionReader.Combine(
+                    new HeaderApiVersionReader("X-Ver"),
+                    new QueryStringApiVersionReader("ver", "v"));
 
             });
             //services.AddMvc(opt => opt.EnableEndpointRouting = false); //version api 404
