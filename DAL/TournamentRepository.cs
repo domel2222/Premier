@@ -155,20 +155,15 @@ namespace Premier.DAL
             query = query.Where(n => n.NickName == nickName);
 
             return await query.FirstOrDefaultAsync();
-
         }
 
         public async Task<bool>  SaveChangesAsync()
         {
             _logger.LogInformation($"Attempting to save this changes");
 
-
             //return if something are change
 
             return (await _context.SaveChangesAsync() > 0);
-
         }
-
-
     }
 }

@@ -33,8 +33,8 @@ namespace Premier.Controllers
         [Produces("application/json")]
         public async Task<ActionResult<TournamentDTO[]>> GetTournaments(bool includesMatches = false)
         {
-            try
-            {
+            //try
+            //{
                 //var yesnt = true;
                 var result = await _tournamentRepository.GetAllTournamentAsync(includesMatches);
 
@@ -43,12 +43,12 @@ namespace Premier.Controllers
                 //return this.Ok(result);
                 return _mapper.Map<TournamentDTO[]>(result);
 
-            }
-            catch (Exception)
-            {
+            //}
+            //catch (Exception)
+            //{
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
 
-            }
+            //}
         }
 
         [HttpGet("{nickname}")]
@@ -99,10 +99,10 @@ namespace Premier.Controllers
                     return BadRequest("NickName is Use");
                 }
 
-                var loction = _linkGenerator.GetPathByAction("GetOneTournament", "tournaments",
+                var location = _linkGenerator.GetPathByAction("GetOneTournament", "tournaments",
                     new { nickname = tour.NickName });
 
-                if (string.IsNullOrWhiteSpace(loction))
+                if (string.IsNullOrWhiteSpace(location))
                 {
                     return BadRequest("Could not use current nickname");
                 }

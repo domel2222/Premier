@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Premier.Context;
+using Premier.Middlewere;
 using Premier.DAL;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,7 @@ namespace Premier
             services.AddScoped<ILocationRepository, LocationRepository>();
             services.AddScoped<ILocationService, LocationServices>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddScoped<ErrorHandlingMidd>();
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
@@ -73,6 +75,7 @@ namespace Premier
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseMiddleware<ErrorHandlingMidd>();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

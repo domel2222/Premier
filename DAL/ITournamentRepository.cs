@@ -18,7 +18,7 @@ namespace Premier.DAL
         Task<bool> SaveChangesAsync();
 
         //public interface IBaseRepository<T> where T : class
-
+        
         //{
         //    Task<T[]> GetAll();
         //    Task<T> GetById(Guid id);
