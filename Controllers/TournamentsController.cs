@@ -38,6 +38,8 @@ namespace Premier.Controllers
                 //var yesnt = true;
                 var result = await _tournamentRepository.GetAllTournamentAsync(includesMatches);
 
+                
+
                 //TournamentDTO[] models = _mapper.Map<TournamentDTO[]>(result);
 
                 //return this.Ok(result);

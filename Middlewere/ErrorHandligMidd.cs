@@ -35,7 +35,7 @@ namespace Premier.Middlewere
                 _logger.LogError(e, e.Message);
 
                 context.Response.StatusCode = 500;
-                await context.Response.WriteAsync("Something went wrong, server error");
+                await context.Response.WriteAsync("Something went wrong  , server error");
             }
         }
         //public async Task InvokeAsync(HttpContext context, RequestDelegate next)

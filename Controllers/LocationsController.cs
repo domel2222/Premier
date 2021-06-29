@@ -26,14 +26,14 @@ namespace Premier.Controllers
         private readonly IMapper _mapper;
         private readonly ILocationService _locationService;
 
-        //private readonly ILogger<LocationsController> _logger;
+        private readonly ILogger<LocationsController> _logger;
 
-        public LocationsController(ILocationRepository locationrepo, IMapper mapper, ILocationService locationService)
+        public LocationsController(ILocationRepository locationrepo, IMapper mapper, ILocationService locationService, ILogger<LocationsController> logger)
         {
             this._locationrepo = locationrepo;
             this._mapper = mapper;
             this._locationService = locationService;
-            //this._logger = logger;
+            this._logger = logger;
         }
 
 
@@ -58,19 +58,21 @@ namespace Premier.Controllers
 
         [HttpGet]
         [Produces("application/json")]
-        [MapToApiVersion("1.1")]
+        //[MapToApiVersion("1.1")]
         public async Task<ActionResult<LocationDTO[]>> GetLocations()
         {
             try
             {
                 var result = await _locationService.AllLocations();
 
+                _logger.LogInformation("Info logging");
                 //return this.Ok(result);
 
                 return result;
             }
             catch (Exception)
             {
+                _logger.LogError("Wyjebawszy database");
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database fail");
             }
         }
@@ -101,6 +103,7 @@ namespace Premier.Controllers
             if (patchDoc == null)
             {
                 //_logger.LogInformation($"Client doesn't send object");
+
                 return NotFound();
             }
 

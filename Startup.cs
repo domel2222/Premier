@@ -28,7 +28,7 @@ namespace Premier
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<TournamentContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Tournament")));
+            services.AddDbContext<TournamentContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Tournament")));
 
             services.AddDbContext<TournamentContext>();
             services.AddScoped<ITournamentRepository, TournamentRepository>();
@@ -58,11 +58,23 @@ namespace Premier
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Premier", Version = "v1" });
             });
+
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("Tour", builder =>
+                builder.AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithOrigins(Configuration["AllowClient"]));
+                
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+
+            app.UseCors("Tour");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
